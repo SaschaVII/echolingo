@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/echolingo/static/css/main.38d0e8de.css",
+    "main.js": "/echolingo/static/js/main.ee4d63fe.js",
+    "static/js/787.2e53188e.chunk.js": "/echolingo/static/js/787.2e53188e.chunk.js",
+    "index.html": "/echolingo/index.html",
+    "main.38d0e8de.css.map": "/echolingo/static/css/main.38d0e8de.css.map",
+    "main.ee4d63fe.js.map": "/echolingo/static/js/main.ee4d63fe.js.map",
+    "787.2e53188e.chunk.js.map": "/echolingo/static/js/787.2e53188e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.38d0e8de.css",
+    "static/js/main.ee4d63fe.js"
+  ]
+}
