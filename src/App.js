@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import LetterValidity from './enums/LetterValidity';
 import Guess from './components/Guess';
-import validWords from './5_letter_words.json';
+import validWords from './5_letter_list.json';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
@@ -11,22 +11,17 @@ function App() {
   const tries = 6;
 
   useEffect(() => {
-    const fetchData = () => {
-      const randomIndex = Math.floor(Math.random() * validWords.length);
-      const randomWord = validWords[randomIndex].word;
-      setActualWord(() => {
-        console.log("psst... it's " + randomWord);
-        return randomWord;
-      });
-    }
-
-    fetchData();
+    const randomIndex = Math.floor(Math.random() * validWords.length);
+    const randomWord = validWords[randomIndex];
+    setActualWord(() => {
+      console.log("psst... it's " + randomWord);
+      return randomWord;
+    });
   }, []);
 
   const wordIsValid = word => {
-    // const result = validWords.some(x => x.word === word );
-    // console.log("result: " + result);
-    return true;
+    const result = validWords.some(x => x === word );
+    return result;
   }
 
   const handleInputChange = (e) => {
@@ -62,7 +57,10 @@ function App() {
       return;
     };
 
-    if (!wordIsValid(word)) alert("word doesn't exist");
+    if (!wordIsValid(word)) {
+      alert("word doesn't exist");
+      return;
+    };
 
     for (let i = 0; i < actualWord.length; i++) {
       if (actualWord[i] === word[i]) {
