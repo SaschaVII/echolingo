@@ -1,16 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import LetterValidity from './enums/LetterValidity';
 import Guess from './components/Guess';
+import validWords from './5_letter_words.json';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
   const [guesses, setGuesses] = useState([]);
-  const actualWord = "crane";
+  const [actualWord, setActualWord] = useState('');
   const tries = 6;
 
+  useEffect(() => {
+    const fetchData = () => {
+      const randomIndex = Math.floor(Math.random() * validWords.length);
+      const randomWord = validWords[randomIndex].word;
+      setActualWord(() => {
+        console.log("psst... it's " + randomWord);
+        return randomWord;
+      });
+    }
+
+    fetchData();
+  }, []);
+
+  const wordIsValid = word => {
+    // const result = validWords.some(x => x.word === word );
+    // console.log("result: " + result);
+    return true;
+  }
+
   const handleInputChange = (e) => {
-    setInputValue(e.target.value.toLowerCase());
+    if (e.target.value === "" || e.target.value.match(/^[a-zA-Z]+$/)?.length > 0) {
+      setInputValue(e.target.value.toLowerCase());
+    }
   };
 
   const handleSubmit = (event) => {
@@ -21,7 +43,6 @@ function App() {
       setGuesses(current => [...current, newGuess]);
       setInputValue("");
     }
-    if (inputValue === actualWord) alert("CORRECT!");
   };
 
   const handleTryAgain = () => {
@@ -40,6 +61,9 @@ function App() {
       console.error("Input was of wrong length");
       return;
     };
+
+    if (!wordIsValid(word)) alert("word doesn't exist");
+
     for (let i = 0; i < actualWord.length; i++) {
       if (actualWord[i] === word[i]) {
         result[i] = LetterValidity.correct;
@@ -55,7 +79,10 @@ function App() {
 
   if (guesses.length > 0 && guesses[guesses.length-1][0] === actualWord) { 
     return (
-      <div className='h-screen flex items-center justify-center flex-col gap-5 bg-slate-300'>
+      <div className='h-screen flex items-center justify-center flex-col gap-5 bg-green-200'>
+        <div className='mb-5 text-6xl animate-bounce'>
+          <Guess word={guesses[guesses.length-1][0]} formatArray={guesses[guesses.length-1][1]} />
+        </div>
         <h1 className='text-green-500 text-4xl'>CONGRATULATIONS, YOU WON!!!</h1>
         <button 
           className='text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-3xl px-10 py-5'
@@ -64,11 +91,12 @@ function App() {
         </button>
       </div>
     );
-  }
+  };
 
   if (guesses.length >= tries) return (
-    <div className='h-screen flex items-center justify-center flex-col gap-5 bg-slate-300'>
-      <h1 className='text-red-500 text-9xl'>GAME OVER</h1>
+    <div className='h-screen flex items-center justify-center flex-col gap-5 bg-red-200'>
+      <h1 className='text-red-500 text-7xl'>GAME OVER</h1>
+      <p className='text-red-700 -mt-4 text-lg'>Bummer! The word you were loooking for was <span className='font-bold text-xl text-red-500'>{actualWord.toUpperCase()}</span>.</p>
       <button 
         className='text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-3xl px-10 py-5'
         onClick={handleTryAgain}>
@@ -76,28 +104,32 @@ function App() {
       </button>
     </div>
   );
+
   return (
-    <div class="h-screen flex items-center justify-center flex-col gap-5">
-        <ol className='text-3xl flex flex-col gap-4'>
-          {(guesses) && showGuesses()}
-        </ol>
-      <form className='flex gap-4' onSubmit={handleSubmit}>
-        <input
-          type="text"
-          minLength="5"
-          maxLength="5"
-          value={inputValue}
-          onChange={handleInputChange}
-          className='bg-gray-50 border border-gray-300 uppercase text-gray-900 text-3xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-44 p-2.5 px-5' />
-        <button 
-          type='submit'
-          disabled={!inputValue}
-          className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5'>
-            SUBMIT
-        </button>
-      </form>
-      <p className='text-2xl opacity-75'>{tries - guesses.length} guesses left</p>
-    </div>
+    <>
+    <h1 className='text-6xl text-slate-700 mt-10 text-center'>EchoLingo</h1>
+      <div className="mt-36 flex items-center justify-center flex-col gap-5">
+          <ol className='text-3xl flex flex-col gap-4'>
+            {(guesses) && showGuesses()}
+          </ol>
+        <form className='flex gap-4' onSubmit={handleSubmit}>
+          <input
+            type="text"
+            minLength="5"
+            maxLength="5"
+            value={inputValue}
+            onChange={handleInputChange}
+            className='bg-gray-50 border border-gray-300 uppercase text-gray-900 text-3xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-44 p-2.5 px-5' />
+          <button 
+            type='submit'
+            disabled={!inputValue}
+            className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5'>
+              SUBMIT
+          </button>
+        </form>
+        <p className='text-2xl opacity-75'>{tries - guesses.length} guesses left</p>
+      </div>
+    </>
   );
 }
 

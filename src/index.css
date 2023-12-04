@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
+  background-color: rgb(239, 242, 245);
   margin: 0;
   font-family: ui-monospace, 
              Menlo, Monaco, 
@@ -23,14 +24,14 @@ code {
     monospace;
 }
 
-.incorrect-letter {
-  @apply text-gray-500;
+.letter-card {
+  @apply bg-slate-400 text-white;
 }
 
-.partial-letter {
-  @apply text-yellow-500;
+.letter-card.partial-letter {
+  @apply bg-amber-400;
 }
 
-.correct-letter {
-  @apply text-green-500;
+.letter-card.correct-letter {
+  @apply bg-emerald-500;
 }
