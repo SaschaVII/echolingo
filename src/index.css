@@ -24,14 +24,18 @@ code {
     monospace;
 }
 
-.letter-card {
-  @apply bg-slate-400 text-white;
+.letter-header-card {
+  @apply bg-slate-400 text-white px-2 py-1 rounded-md text-center;
 }
 
-.letter-card.partial-letter {
+.letter-card {
+  @apply bg-slate-400 text-white p-4 rounded-md text-center;
+}
+
+.partial-letter {
   @apply bg-amber-400;
 }
 
-.letter-card.correct-letter {
+.correct-letter {
   @apply bg-emerald-500;
 }

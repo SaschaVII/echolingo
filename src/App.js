@@ -4,6 +4,7 @@ import LetterValidity from './enums/LetterValidity';
 import Guess from './components/Guess';
 import validWords from './5_letter_list.json';
 import commonWords from './common_words.json';
+import EchoLingoTitle from './components/EchoLingoTitle';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
@@ -107,7 +108,7 @@ function App() {
 
   return (
     <>
-      <h1 className='text-6xl text-slate-700 mt-10 text-center'>EchoLingo</h1>
+      <EchoLingoTitle />
       <div className="mt-36 flex items-center justify-center flex-col gap-5">
         <ol className='text-3xl flex flex-col gap-4'>
           {(guesses) && showGuesses()}

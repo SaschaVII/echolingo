@@ -2,7 +2,7 @@ function Guess({ word, formatArray }) {
     const wordArray = word.split("");
     
     const getValidityClass = (index) => {
-        let className = "letter-card p-4 rounded-md text-center"; 
+        let className = "letter-card"; 
         switch (formatArray[index]) {
             case 1:
                 className += " partial-letter";
