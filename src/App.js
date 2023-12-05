@@ -3,7 +3,7 @@ import './App.css';
 import LetterValidity from './enums/LetterValidity';
 import Guess from './components/Guess';
 import validWords from './5_letter_list.json';
-import commonWords from './commo_words.json';
+import commonWords from './common_words.json';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
@@ -16,7 +16,7 @@ function App() {
     const randomIndex = Math.floor(Math.random() * commonWords.length);
     const randomWord = commonWords[randomIndex];
     setActualWord(() => {
-      console.log("psst... it's " + commonWords);
+      console.log("psst... it's " + randomWord);
       return randomWord;
     });
   }, []);
