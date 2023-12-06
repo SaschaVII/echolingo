@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/echolingo/static/css/main.ca3346ed.css",
-    "main.js": "/echolingo/static/js/main.d34a8059.js",
+    "main.css": "/echolingo/static/css/main.f13b64e9.css",
+    "main.js": "/echolingo/static/js/main.e68e802c.js",
     "static/js/787.2e53188e.chunk.js": "/echolingo/static/js/787.2e53188e.chunk.js",
     "index.html": "/echolingo/index.html",
-    "main.ca3346ed.css.map": "/echolingo/static/css/main.ca3346ed.css.map",
-    "main.d34a8059.js.map": "/echolingo/static/js/main.d34a8059.js.map",
+    "main.f13b64e9.css.map": "/echolingo/static/css/main.f13b64e9.css.map",
+    "main.e68e802c.js.map": "/echolingo/static/js/main.e68e802c.js.map",
     "787.2e53188e.chunk.js.map": "/echolingo/static/js/787.2e53188e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ca3346ed.css",
-    "static/js/main.d34a8059.js"
+    "static/css/main.f13b64e9.css",
+    "static/js/main.e68e802c.js"
   ]
 }
