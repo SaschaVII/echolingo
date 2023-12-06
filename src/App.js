@@ -62,7 +62,6 @@ function App() {
     // guess: [wordLetters, resultArray]
     const letters = guess[0];
     const results = guess[1];
-    console.log(letters, results)
     
     for (let letterIndex = 0; letterIndex < letters.length; letterIndex++) {
       const letter = letters[letterIndex];
@@ -73,10 +72,6 @@ function App() {
       if (results[letterIndex] === LetterValidity.partial && !partial.includes(letter)) partial.push(letter);
       if (results[letterIndex] === LetterValidity.incorrect && !incorrect.includes(letter)) incorrect.push(letter);
     }
-
-    console.log(correct);
-    console.log(partial);
-    console.log(incorrect);
 
     setKeyboardLetters(current => {
       return {...current,
