@@ -1,15 +1,22 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { useEffect, useState, useRef } from 'react';
 import LetterValidity from './enums/LetterValidity';
 import Guess from './components/Guess';
 import validWords from './5_letter_list.json';
 import commonWords from './common_words.json';
 import EchoLingoTitle from './components/EchoLingoTitle';
+import Keyboard from './components/Keyboard';
 
 function App() {
+  const inputRef = useRef(null);
   const [inputValue, setInputValue] = useState('');
   const [guesses, setGuesses] = useState([]);
   const [actualWord, setActualWord] = useState('');
+  const [keyboardLetters, setKeyboardLetters] = useState({
+    'correct':[],
+    'partial':[],
+    'incorrect':[]
+  });
+
   const tries = 6;
 
   useEffect(() => {
@@ -20,6 +27,9 @@ function App() {
       console.log("psst... it's " + randomWord);
       return randomWord;
     });
+
+    // focus input
+    inputRef.current?.focus();
   }, []);
 
   const wordIsValid = word => {
@@ -39,9 +49,43 @@ function App() {
     if (result) {
       const newGuess = [inputValue, result];
       setGuesses(current => [...current, newGuess]);
+      updateKeyboard(newGuess);
       setInputValue("");
     }
   };
+
+  const updateKeyboard = guess => {
+    const correct = keyboardLetters.correct;
+    const partial = keyboardLetters.partial;
+    const incorrect = keyboardLetters.incorrect;
+
+    // guess: [wordLetters, resultArray]
+    const letters = guess[0];
+    const results = guess[1];
+    console.log(letters, results)
+    
+    for (let letterIndex = 0; letterIndex < letters.length; letterIndex++) {
+      const letter = letters[letterIndex];
+      if (results[letterIndex] === LetterValidity.correct && !correct.includes(letter)) {
+        correct.push(letter);
+        if(partial.includes(letter)) partial.splice(partial.indexOf(letter));
+      };
+      if (results[letterIndex] === LetterValidity.partial && !partial.includes(letter)) partial.push(letter);
+      if (results[letterIndex] === LetterValidity.incorrect && !incorrect.includes(letter)) incorrect.push(letter);
+    }
+
+    console.log(correct);
+    console.log(partial);
+    console.log(incorrect);
+
+    setKeyboardLetters(current => {
+      return {...current,
+        'correct': correct,
+        'partial': partial,
+        'incorrect': incorrect
+      };
+    });
+  }
 
   const handleTryAgain = () => {
     document.location.reload();
@@ -76,7 +120,14 @@ function App() {
       }
     }
     return result;
-  }
+  };
+
+  const handleKeyClick = letter => {
+    setInputValue(current => {
+      if (current.length >= 5) return current;
+      return current + letter;
+    });
+  };
 
   if (guesses.length > 0 && guesses[guesses.length - 1][0] === actualWord) {
     return (
@@ -109,12 +160,14 @@ function App() {
   return (
     <>
       <EchoLingoTitle />
-      <div className="mt-36 flex items-center justify-center flex-col gap-5">
+      <div className="mt-10 flex items-center justify-center flex-col gap-5">
+      <p className='text-2xl opacity-75'>{tries - guesses.length} guesses left</p>
         <ol className='text-3xl flex flex-col gap-4'>
           {(guesses) && showGuesses()}
         </ol>
         <form className='flex gap-4' onSubmit={handleSubmit}>
           <input
+            ref={inputRef}
             type="text"
             minLength="5"
             maxLength="5"
@@ -128,7 +181,11 @@ function App() {
             SUBMIT
           </button>
         </form>
-        <p className='text-2xl opacity-75'>{tries - guesses.length} guesses left</p>
+        <Keyboard
+          correct={keyboardLetters.correct}
+          partial={keyboardLetters.partial}
+          incorrect={keyboardLetters.incorrect}
+          keyClickHandler={handleKeyClick} />
       </div>
     </>
   );
